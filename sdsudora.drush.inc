@@ -39,11 +39,11 @@ function drush_sdsudora_import_raw_qdc() {
 
   $object = islandora_object_load($islandora_pid);
   if ($object && !isset($object['MODS'])) {
-    drush_log(dt("Generating MODS for @pid", array('@pid' => $islandora_pid)), 'success')
+    drush_log(dt("Generating MODS for @pid", array('@pid' => $islandora_pid)), 'success');
     $mods = sdsudora_generate_mods($object_info['metadata']);
     sdsudora_add_metadata($object, $mods);
   }
   else {
-    drush_log(dt("MODS exists for @pid, skipping", array('@pid' => $islandora_pid)), 'warning')
+    drush_log(dt("MODS exists for @pid, skipping", array('@pid' => $islandora_pid)), 'warning');
   }
 }

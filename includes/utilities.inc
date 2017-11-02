@@ -83,12 +83,12 @@ function sdsudora_add_metadata($object, $mods_xml) {
 function sdsudora_generate_mods($object_info) {
   // Mappings for DIM to MODS.
   $terms_map = array(
-    'dc.contributor.author' => '<mods:name><mods:role><mods:roleTerm authority="marcrelator" type="text">author<mods:namePart /></mods:roleTerm></mods:role></mods:name>',
-    'dc.contributor.committeemember' => '<mods:name type="personal"><mods:role><mods:roleTerm>Committee Member<mods:displayForm /></mods:roleTerm></mods:role></mods:name>',
-    'dc.contributor.committeeMember' => '<mods:name type="personal"><mods:role><mods:roleTerm>Committee Member<mods:displayForm /></mods:roleTerm></mods:role></mods:name>',
-    'dc.contributor.advisor' => '<mods:name><mods:role><mods:roleTerm authority="marcrelator" type="text">Thesis advisor<mods:displayForm /></mods:roleTerm></mods:role></mods:name>',
-    'dc.contributor.department' => '<mods:name type="corporate"><mods:role><mods:roleTerm type="text">department<mods:displayForm /></mods:roleTerm></mods:role></mods:name>',
-    'dc.contributor.editor' => '<mods:name><mods:role><mods:roleTerm authority="marcrelator" type="text">editor<mods:displayForm /></mods:roleTerm></mods:role></mods:name>',
+    'dc.contributor.author' => '<mods:name><mods:namePart /><mods:role><mods:roleTerm authority="marcrelator" type="text">author</mods:roleTerm></mods:role></mods:name>',
+    'dc.contributor.committeemember' => '<mods:name type="personal"><mods:displayForm /><mods:role><mods:roleTerm>Committee Member</mods:roleTerm></mods:role></mods:name>',
+    'dc.contributor.committeeMember' => '<mods:name type="personal"><mods:displayForm /><mods:role><mods:roleTerm>Committee Member</mods:roleTerm></mods:role></mods:name>',
+    'dc.contributor.advisor' => '<mods:name><mods:displayForm /><mods:role><mods:roleTerm authority="marcrelator" type="text">Thesis advisor</mods:roleTerm></mods:role></mods:name>',
+    'dc.contributor.department' => '<mods:name type="corporate"><mods:displayForm /><mods:role><mods:roleTerm type="text">department</mods:roleTerm></mods:role></mods:name>',
+    'dc.contributor.editor' => '<mods:name><mods:displayForm /><mods:role><mods:roleTerm authority="marcrelator" type="text">editor</mods:roleTerm></mods:role></mods:name>',
     'dc.coverage.spatial' => '<mods:subject><mods:hierarchicalgeographic><mods:area /></mods:hierarchicalgeographic></mods:subject>',
     'dc.coverage.box' => '<mods:subject><mods:cartographics><mods:coordinates /></mods:cartographics></mods:subject>',
     'dc.coverage.point' => '<mods:subject><mods:cartographics><mods:coordinates /></mods:cartographics></mods:subject>',
@@ -105,14 +105,14 @@ function sdsudora_generate_mods($object_info) {
     'dc.description.discipline' => '<mods:extension><etd:degree><etd:discipline /></etd:degree></mods:extension>',
     'dc.description.sponsorship' => '<mods:note type="sponsorship" />',
     'dc.description.embargoterms' => '<mods:accessCondition type="embargo terms" />',
-    'dc.description.statementofresponsibility' => '<mods:name><mods:role><mods:roleTerm authority="marcrelator" type="text">teacher<mods:namePart /></mods:roleTerm></mods:role></mods:name>',
+    'dc.description.statementofresponsibility' => '<mods:name><mods:namePart /><mods:role><mods:roleTerm authority="marcrelator" type="text">teacher</mods:roleTerm></mods:role></mods:name>',
     'dc.format.extent' => '<mods:physicalDescription><mods:extent /></mods:physicalDescription>',
     'dc.language' => '<mods:language><mods:languageTerm type="text" /></mods:language>',
     'dc.language.rfc3066' => '<mods:language><mods:languageTerm authority="rfc3066" type="code" /></mods:language>',
     'dc.language.iso' => '<mods:language><mods:languageTerm authority="iso639-2b" type="code" /></mods:language>',
     'dc.provenance' => '<mods:recordInfo><mods:recordOrigin /></mods:recordInfo>',
     'dc.publisher' => '<mods:extension><etd:degree><etd:grantor /></etd:degree></mods:extension>',
-    'dc.relation.hasversion' => '<mods:relatedItem><mods:physicalDescription><mods:form>microfiche<mods:identifier type="local" /></mods:form></mods:physicalDescription></mods:relatedItem>',
+    'dc.relation.hasversion' => '<mods:relatedItem><mods:identifier type="local" /><mods:physicalDescription><mods:form>microfiche</mods:form></mods:physicalDescription></mods:relatedItem>',
     'dc.relation.ispartofseries' => '<mods:relatedItem type="series"><mods:titleInfo><mods:partNumber /></mods:titleInfo></mods:relatedItem>',
     'dc.rights' => '<mods:accessCondition type="use and reproduction" />',
     'dc.subject' => '<mods:subject><mods:topic /></mods:subject>',
@@ -125,9 +125,8 @@ function sdsudora_generate_mods($object_info) {
 
   $dom = new DOMDocument('1.0', 'utf-8');
   $dom->formatOutput = TRUE;
-  $root = $dom->createElement('mods');
+  $root = $dom->createElementNS('http://www.loc.gov/mods/v3', 'mods:mods');
   $root->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:etd', 'http://www.ndltd.org/standards/metadata/etdms/1.0');
-  $root->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:mods', 'http://www.loc.gov/mods/v3');
 
   $dom->appendChild($root);
   $old_doc = new DOMDocument();
@@ -178,5 +177,18 @@ function sdsudora_generate_mods($object_info) {
     $element->appendChild($tmp_doc->createTextNode($child->textContent));
     $root->appendChild($dom->importNode($tmp_root, TRUE));
   }
-  return $dom->saveXML();
+
+  return sdsudora_reorder_mods($dom);
+}
+/**
+ * Reorder MODS structure
+ */
+function sdsudora_reorder_mods($dom) {
+  $xslt = new XSLTProcessor();
+  $module_path = drupal_get_path('module', 'sdsudora');
+  $xsl = new DOMDocument();
+  $xsl->load("$module_path/xsl/reorder_mods.xsl");
+  $xslt->importStylesheet($xsl);
+  return $xslt->transformToXml($dom);
+
 }
