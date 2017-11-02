@@ -180,9 +180,9 @@ function sdsudora_generate_mods($object_info) {
   }
   // XXX: Workaround: XSLT doesn't seem to like working on $dom directly
   // saving to a new DOM works.
-  $newDom = new DOMDocument();
-  $newDom->loadXML($dom->saveXML());
-  return sdsudora_reorder_mods($newDom);
+  $new_dom = new DOMDocument();
+  $new_dom->loadXML($dom->saveXML());
+  return sdsudora_reorder_mods($new_dom);
 }
 
 /**
