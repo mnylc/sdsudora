@@ -178,8 +178,11 @@ function sdsudora_generate_mods($object_info) {
     $element->appendChild($tmp_doc->createTextNode($child->textContent));
     $root->appendChild($dom->importNode($tmp_root, TRUE));
   }
-
-  return sdsudora_reorder_mods($dom);
+  // XXX: Workaround: XSLT doesn't seem to like working on $dom directly
+  // saving to a new DOM works.
+  $newDom = newDOMDocument();
+  $newDom->loadXML($dom->saveXML());
+  return sdsudora_reorder_mods($newDom);
 }
 
 /**
