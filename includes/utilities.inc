@@ -64,9 +64,9 @@ function sdsudora_extract_data_from_mets($path) {
 
 /**
  * Ingest the metadata.
- * XXX: Could future-proof by passing in more params.
  */
 function sdsudora_add_metadata($object, $mods_xml) {
+  //XXX: Could future-proof by passing in more params.
   if ($mods_xml) {
     $mods_datastream = $object->constructDatastream('MODS', 'M');
     $mods_datastream->mimetype = 'application/xml';
