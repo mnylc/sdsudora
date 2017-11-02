@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Utility functions for the module.
@@ -182,7 +183,7 @@ function sdsudora_generate_mods($object_info) {
 }
 
 /**
- * Reorder MODS structure
+ * Reorder MODS structure.
  */
 function sdsudora_reorder_mods($dom) {
   $xslt = new XSLTProcessor();
