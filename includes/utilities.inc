@@ -123,7 +123,7 @@ function sdsudora_generate_mods($object_info) {
     'dc.type.genre' => '<mods:genre />',
   );
 
-  $dom = new DOMDocument('1.0', 'utf-8');
+  $dom = new DOMDocument();
   $dom->formatOutput = TRUE;
   $root = $dom->createElementNS('http://www.loc.gov/mods/v3', 'mods:mods');
   $root->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:etd', 'http://www.ndltd.org/standards/metadata/etdms/1.0');
@@ -180,6 +180,7 @@ function sdsudora_generate_mods($object_info) {
 
   return sdsudora_reorder_mods($dom);
 }
+
 /**
  * Reorder MODS structure
  */
@@ -190,5 +191,4 @@ function sdsudora_reorder_mods($dom) {
   $xsl->load("$module_path/xsl/reorder_mods.xsl");
   $xslt->importStylesheet($xsl);
   return $xslt->transformToXml($dom);
-
 }
