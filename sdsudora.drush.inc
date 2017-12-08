@@ -22,7 +22,13 @@ function sdsudora_drush_command() {
       ),
     ),
   );
-
+  $commands['sdsudora-update-handle-urls'] = array(
+    'description' => dt('Updates Handle URLs as the --uri option may not have been set.'),
+    'drupal_dependencies' => array('islandora', 'sdsudora'),
+    'examples' => array(
+      'drush -u 1 -v sdsudora-update-handle-urls --uri=https://digitallibrary.sdsu.edu/',
+    ),
+  );
   return $commands;
 }
 
@@ -47,4 +53,23 @@ function drush_sdsudora_import_raw_qdc() {
   else {
     drush_log(dt("MODS exists for @pid, skipping", array('@pid' => $islandora_pid)), 'warning');
   }
+}
+
+/**
+ * Drush command callback to update Handle URLs.
+ */
+function drush_sdsudora_update_handle_urls() {
+  $module = drupal_get_path('module', 'sdsudora');
+  $mappings = db_select('islandora_handle_apply_handle', 'h')
+    ->fields('h', array('cmodel', 'datastream'))
+    ->execute()
+    ->fetchAllAssoc('cmodel', PDO::FETCH_ASSOC);
+  batch_set(array(
+    'title' => dt('Updating Handle URLs'),
+    'operations' => array(
+      array('sdsudora_update_handle_batch_operation', array($mappings)),
+    ),
+    'file' => "$module/includes/update_handles.batch.inc",
+  ));
+  drush_backend_batch_process();
 }
