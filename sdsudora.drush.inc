@@ -26,7 +26,7 @@ function sdsudora_drush_command() {
     'description' => dt('Updates Handle URLs as the --uri option may not have been set.'),
     'drupal_dependencies' => array('islandora', 'sdsudora'),
     'examples' => array(
-      'drush -u 1 -v sdsudora-update-handles-urls --uri=https://digitallibrary.sdsu.edu/',
+      'drush -u 1 -v sdsudora-update-handle-urls --uri=https://digitallibrary.sdsu.edu/',
     ),
   );
   return $commands;
