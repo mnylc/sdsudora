@@ -21,7 +21,7 @@ function sdsudora_importer_menu() {
       'page callback' => 'drupal_get_form',
       'page arguments' => array('sdsudora_admin_form'),
       'file' => 'includes/admin.form.inc',
-      'access arguments' => array('administer islandora sdsudora'),
+      'access arguments' => array(SDSUDORA_ADMIN),
     ),
   );
 }
