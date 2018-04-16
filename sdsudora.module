@@ -60,7 +60,7 @@ function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object =
       // Number of values will be always even.
       $iterations = $values/2; 
       for($i=0;$i<$iterations;$i++) {
-        $pid = $values['sdsudora_settings_o_'. $i];
+        $pid = str_replace("%3A",":", $values['sdsudora_settings_o_'. $i]);
         foreach($breadcrumbstmp as $key => $item) {
           if (strpos($item, "islandora/object/{$pid}")!== FALSE) {
             $replacement = $values['sdsudora_settings_d_'. $i];
