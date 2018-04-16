@@ -1,6 +1,39 @@
 <?php
 
 /**
- * @file
- * Primary hooks for this module.
- */
+* @file
+* Main SDSUdora module file.
+* @author Diego Pino Navarro
+*/
+
+// Permissions.
+define('SDSUDORA_ADMIN', 'Administer sdsudora');
+
+/**
+* Implements hook_menu().
+*/
+function sdsudora_importer_menu() {
+  return array(
+    'admin/islandora/tools/sdsudora' => array(
+      'title' => 'SDSUdora settings',
+      'description' => 'Configure SDSUdora-the-explorer.',
+      'type' => MENU_NORMAL_ITEM,
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('sdsudora_admin_form'),
+      'file' => 'includes/admin.form.inc',
+      'access arguments' => array('administer islandora sdsudora'),
+    ),
+  );
+}
+
+/**
+* Implements hook_permission().
+*/
+function sdsudora_permission() {
+  return array(
+    SDSUDORA_ADMIN => array(
+      'title' => t('Administer SDSUdora'),
+      'description' => t('Administer settings for the SDSUdora module.'),
+    ),
+  );
+}
