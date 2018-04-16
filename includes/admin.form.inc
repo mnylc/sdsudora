@@ -33,12 +33,12 @@ function sdsudora_admin_form($form, &$form_state) {
     $form['sdsudora_settings']['sdsudora_settings_o_'. $i] = array(
       '#type' => 'textfield',
       '#title' => t('Object to be replaced'),
-      '#default_value' => isset($values['sdsudora_settings']['sdsudora_settings_o_'. $i]) ? $values['sdsudora_settings']['sdsudora_settings_o_'. $i] : 'islandora:root',
+      '#value' => isset($values['sdsudora_settings']['sdsudora_settings_o_'. $i]) ? $values['sdsudora_settings']['sdsudora_settings_o_'. $i] : 'islandora:root',
     );
     $form['sdsudora_settings']['sdsudora_settings_d_'. $i] = array(
       '#type' => 'textfield',
       '#title' => t('Replacement URI'),
-      '#default_value' => isset($values['sdsudora_settings']['sdsudora_settings_d_'. $i]) ? $values['sdsudora_settings']['sdsudora_settings_d_'. $i] : '/islandora',
+      '#value' => isset($values['sdsudora_settings']['sdsudora_settings_d_'. $i]) ? $values['sdsudora_settings']['sdsudora_settings_d_'. $i] : '/islandora',
     );
   }
 
