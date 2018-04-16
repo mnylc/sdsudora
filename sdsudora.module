@@ -70,7 +70,7 @@ function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object =
             $item = menu_get_item($normal_path);
             dpm($item);
            
-            $breadcrumbs[$key] =l($item['title'] , $item['href'], $item['localized_options']);
+            $breadcrumbs[$key] =l($item['title'] , $item['href']);
           }  
         }
         $i++; 
