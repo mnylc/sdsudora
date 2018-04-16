@@ -3,5 +3,4 @@ description = "Module for SDSU customizations."
 package = Islandora Tools
 core = 7.x
 php = 5.3
-dependencies[] = dspace_aip_import
 dependencies[] = islandora

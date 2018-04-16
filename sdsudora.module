@@ -2,5 +2,86 @@
 
 /**
  * @file
- * Primary hooks for this module.
+ * Main SDSUdora module file.
+ * @author Diego Pino Navarro
  */
+
+// Permissions.
+define('SDSUDORA_ADMIN', 'Administer sdsudora');
+
+/**
+ * Implements hook_menu().
+ */
+function sdsudora_menu() {
+  return array(
+    'admin/islandora/tools/sdsudora' => array(
+      'title' => 'SDSUdora settings',
+      'description' => 'Configure SDSUdora-the-explorer.',
+      'type' => MENU_NORMAL_ITEM,
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('sdsudora_admin_form'),
+      'file' => 'includes/admin.form.inc',
+      'access arguments' => array(SDSUDORA_ADMIN),
+    ),
+  );
+}
+
+/**
+ * Implements hook_permission().
+ */
+function sdsudora_permission() {
+  return array(
+    SDSUDORA_ADMIN => array(
+      'title' => t('Administer SDSUdora'),
+      'description' => t('Administer settings for the SDSUdora module.'),
+    ),
+  );
+}
+
+/**
+ * Alters breadcrumbs used on Solr search results and within Islandora views.
+ *
+ * @param array $breadcrumbs
+ *   Breadcrumbs array to be altered by reference. Each element is markup.
+ * @param string $context
+ *   Where the alter is originating from for distinguishing.
+ * @param AbstractObject $object
+ *   (Optional) AbstractObject representing object providing breadcrumb path.
+ */
+function sdsudora_islandora_breadcrumbs_alter(array &$breadcrumbs, $context, AbstractObject $object = NULL) {
+  if ($context == 'islandora') {
+    // Copy to be able to remove values.
+    $breadcrumbstmp = $breadcrumbs;
+    $values = variable_get('sdsudora_settings', array());
+    $numvalues = count($values);
+
+    if ($numvalues) {
+      $i = 0;
+      // Number of values will be always even.
+      $iterations = (int) round($numvalues / 2);
+      for ($i = 0; $i < $iterations; $i++) {
+        $pid = str_replace(":", "%3A", $values['sdsudora_settings_o_' . $i]);
+        foreach ($breadcrumbstmp as $key => $item) {
+          if (strpos($item, "islandora/object/{$pid}") !== FALSE) {
+            $replacementpath = trim($values['sdsudora_settings_d_' . $i], '/');
+            $uri = drupal_get_path_alias($replacementpath);
+            $realuri = !empty($uri) ? $uri : $replacementpath;
+            $path = drupal_lookup_path('source', $realuri);
+            $preferred_link = menu_link_get_preferred($path);
+            if (!$preferred_link) {
+              $normal_path = drupal_get_normal_path($replacementpath);
+            }
+            else {
+              $normal_path = $preferred_link;
+            }
+
+            $item = menu_get_item($normal_path);
+
+            $breadcrumbs[$key] = l($item['title'], $item['href']);
+          }
+        }
+        $i++;
+      }
+    }
+  }
+}
