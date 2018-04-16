@@ -51,17 +51,16 @@ function sdsudora_permission() {
  *   (Optional) AbstractObject representing object providing breadcrumb path
  */
 function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object = NULL) {
-  dpm($context);
-   dpm($breadcrumbs);
   if ($context == 'islandora') {
     $values = variable_get('sdsudora_settings', array());
     if (count($values)) {
       $i=0;
-      echo "hola";
-      dpm($breadcrumbs);
       foreach($values as $key => $value) {
-        dpm($key);
-      $i++; 
+        foreach($breadcrumbs as &$item) {
+          dpm($item);
+          dpm($i);
+        }
+        $i++; 
       }
     }
     
