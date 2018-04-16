@@ -54,11 +54,11 @@ function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object =
   dpm($context);
   if ($context == 'islandora') {
     $values = variable_get('sdsudora_settings', array());
-    if (count($values) && isset ($values['sdsudora_settings']['map'])) {
+    if (count($values) && isset ($values['sdsudora_settings'])) {
       $i=0;
       dpm($breadcrumbs);
-      foreach($values['sdsudora_settings']['map'] as $key => $value) {
-      
+      foreach($values['sdsudora_settings'] as $key => $value) {
+        dpm($key);
       $i++; 
       }
     }
