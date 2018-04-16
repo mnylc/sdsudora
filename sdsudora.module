@@ -66,7 +66,17 @@ function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object =
         foreach($breadcrumbstmp as $key => $item) {
           if (strpos($item, "islandora/object/{$pid}")!== FALSE) {
             $replacementpath = trim($values['sdsudora_settings_d_'. $i],'/');
+            $uri = drupal_get_path_alias($replacementpath);
+            $realuri = !empty($uri) ? $uri : $replacementpath;
+            $path = drupal_lookup_path('source', $realuri);
+            $preferred_link = menu_link_get_preferred($path);
+            if (!$preferred_link) {
             $normal_path = drupal_get_normal_path($replacementpath);
+            } 
+            else {
+            $normal_path = $preferred_link;
+            }
+           
             $item = menu_get_item($normal_path);
             dpm($item);
            
@@ -75,7 +85,6 @@ function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object =
         }
         $i++; 
       }
-    }
-    
+    } 
   }
 }  
