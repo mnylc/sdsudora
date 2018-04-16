@@ -52,13 +52,21 @@ function sdsudora_permission() {
  */
 function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object = NULL) {
   if ($context == 'islandora') {
+    // Copy to be able to remove values
+    $breadcrumbstmp = $breadcrumbs;
     $values = variable_get('sdsudora_settings', array());
     if (count($values)) {
       $i=0;
-      foreach($values as $key => $value) {
-        foreach($breadcrumbs as &$item) {
-          dpm($item);
-          dpm($i);
+      // Number of values will be always even.
+      $iterations = $values/2; 
+      for($i=0;$i<$iterations;$i++) {
+        $pid = $values['sdsudora_settings_o_'. $i];
+        foreach($breadcrumbstmp as $key => $item) {
+          if (strpos($item, "islandora/object/{$pid}")!== FALSE) {
+            $replacement = $values['sdsudora_settings_d_'. $i];
+            $breadcrumbs[$key] = menu_link_get_preferred($replacement);
+            dpm(menu_get_item(trim($replacement)));
+          }  
         }
         $i++; 
       }
