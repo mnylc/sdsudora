@@ -52,12 +52,14 @@ function sdsudora_permission() {
  */
 function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object = NULL) {
   dpm($context);
+   dpm($breadcrumbs);
   if ($context == 'islandora') {
     $values = variable_get('sdsudora_settings', array());
-    if (count($values) && isset ($values['sdsudora_settings'])) {
+    if (count($values)) {
       $i=0;
+      echo "hola";
       dpm($breadcrumbs);
-      foreach($values['sdsudora_settings'] as $key => $value) {
+      foreach($values as $key => $value) {
         dpm($key);
       $i++; 
       }
