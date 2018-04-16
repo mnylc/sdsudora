@@ -65,6 +65,7 @@ function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object =
         $pid = str_replace("%3A",":", $values['sdsudora_settings_o_'. $i]);
         foreach($breadcrumbstmp as $key => $item) {
           dpm("islandora/object/{$pid}");
+          dpm($item);
           if (strpos($item, "islandora/object/{$pid}")!== FALSE) {
             $replacement = $values['sdsudora_settings_d_'. $i];
             dpm($replacement);
