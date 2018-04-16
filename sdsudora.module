@@ -12,7 +12,7 @@ define('SDSUDORA_ADMIN', 'Administer sdsudora');
 /**
 * Implements hook_menu().
 */
-function sdsudora_importer_menu() {
+function sdsudora_menu() {
   return array(
     'admin/islandora/tools/sdsudora' => array(
       'title' => 'SDSUdora settings',
