@@ -55,10 +55,11 @@ function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object =
     // Copy to be able to remove values
     $breadcrumbstmp = $breadcrumbs;
     $values = variable_get('sdsudora_settings', array());
-    if (count($values)) {
+    $numvalues = count($values)
+    if ($numvalues) {
       $i=0;
       // Number of values will be always even.
-      $iterations = $values/2; 
+      $iterations = (int) round($numvalues/2); 
       for($i=0;$i<$iterations;$i++) {
         $pid = str_replace("%3A",":", $values['sdsudora_settings_o_'. $i]);
         foreach($breadcrumbstmp as $key => $item) {
