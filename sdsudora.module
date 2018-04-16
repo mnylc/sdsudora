@@ -71,15 +71,14 @@ function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object =
             $path = drupal_lookup_path('source', $realuri);
             $preferred_link = menu_link_get_preferred($path);
             if (!$preferred_link) {
-            $normal_path = drupal_get_normal_path($replacementpath);
+              $normal_path = drupal_get_normal_path($replacementpath);
             } 
             else {
-            $normal_path = $preferred_link;
+              $normal_path = $preferred_link;
             }
-           
+
             $item = menu_get_item($normal_path);
-            dpm($item);
-           
+
             $breadcrumbs[$key] =l($item['title'] , $item['href']);
           }  
         }
