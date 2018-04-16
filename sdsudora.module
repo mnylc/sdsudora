@@ -68,7 +68,7 @@ function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object =
           dpm($item);
           if (strpos($item, "islandora/object/{$pid}")!== FALSE) {
             $replacement = $values['sdsudora_settings_d_'. $i];
-   
+            dpm(menu_link_get_preferred($replacement));
             $breadcrumbs[$key] = menu_link_get_preferred($replacement);
             //dpm(menu_get_item(trim($replacement)));
           }  
