@@ -55,7 +55,7 @@ function sdsudora_islandora_breadcrumbs_alter(&$breadcrumbs, $context, $object =
     // Copy to be able to remove values
     $breadcrumbstmp = $breadcrumbs;
     $values = variable_get('sdsudora_settings', array());
-    $numvalues = count($values)
+    $numvalues = count($values);
     if ($numvalues) {
       $i=0;
       // Number of values will be always even.
