@@ -54,6 +54,7 @@ function sdsudora_admin_form(array $form, array &$form_state) {
  *   An array containing the Drupal form state.
  */
 function sdsudora_admin_form_validate(array $form, array &$form_state) {
+  module_load_include('inc', 'islandora', 'includes/utilities');
   $i = 0;
   foreach ($form_state['values']['sdsudora_settings'] as $key => $value) {
     if ($key == 'sdsudora_settings_o_' . $i) {
