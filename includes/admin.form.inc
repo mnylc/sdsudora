@@ -19,9 +19,9 @@
  */
 function sdsudora_admin_form(array $form, array &$form_state) {
   $values = variable_get('sdsudora_settings', array());
-  $existingvalues = count($values);
+  $existingvalues = round(count($values)/2);
   $numvalues = $existingvalues == 0 ? 1 : $existingvalues;
-  $max = 5;
+  $max = 2;
   $numberoffields = $numvalues > $max ? $max : $numvalues;
   $form['sdsudora_settings'] = array(
     '#tree' => TRUE,
