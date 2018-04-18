@@ -66,7 +66,7 @@ function sdsudora_islandora_breadcrumbs_alter(array &$breadcrumbs, $context, Abs
         foreach ($breadcrumbstmp as $key => $item) {
           
           if ((strpos($item, "islandora/object/{$pid}") !== FALSE) ||
-          (strpos($item == 'a href="/islandora"')!== FALSE && $pid == $root))
+          (strpos($item, 'a href="/islandora"')!== FALSE && $pid == $root))
           {
             $replacementpath = trim($values['sdsudora_settings_d_' . $i], '/');
             $uri = drupal_get_path_alias($replacementpath);
