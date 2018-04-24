@@ -102,6 +102,7 @@ function sdsudora_preprocess_islandora_solr_metadata_display(array &$variables) 
  
   foreach ($variables['solr_fields'] as $fieldname => $fields) {
     if ((substr($fieldname, - 3) === '_dt') || (substr($fieldname, - 4) === '_mdt')) {
+       kprint_r($fields);
        if ((!isset($fields['formatter']) || empty($fields['formatter'])) && !empty($fields['value'])) {
          $variables['solr_fields'][$fieldname]['formatter'] = '_sdsuFormatDate';
        }
