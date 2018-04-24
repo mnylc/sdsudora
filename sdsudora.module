@@ -102,7 +102,7 @@ function sdsudora_preprocess_islandora_solr_metadata_display(array &$variables) 
  
   foreach ($variables['solr_fields'] as $fieldname => $fields) {
     if ((substr($fieldname, - 3) === '_dt') || (substr($fieldname, - 4) === '_mdt')) {
-       if ((!isset($fields['formatter']) || empty($fields['formatter'])) && !empty($fields['value'])){
+       if ((!isset($fields['formatter']) || empty($fields['formatter'])) && !empty($fields['value'])) {
          $variables['solr_fields'][$fieldname]['formatter'] = '_sdsuFormatDate';
        }
     }
@@ -116,5 +116,6 @@ function sdsudora_preprocess_islandora_solr_metadata_display(array &$variables) 
  * Formats a Solr Date into Natural language Date removing time and zone
  */
 function _sdsuFormatDate($value) {
+  kprint_r(date('jS \of F', strtotime($value)));
   return date('jS \of F', strtotime($value));
 }
