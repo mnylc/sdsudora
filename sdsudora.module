@@ -91,3 +91,30 @@ function sdsudora_islandora_breadcrumbs_alter(array &$breadcrumbs, $context, Abs
     }
   }
 }
+
+
+/**
+ * Implements hook_preprocess_islandora_solr_metadata_description().
+ *
+ * Adds formatter function to all *_dt and *_mdt fields.
+ */
+function sdsudora_preprocess_islandora_solr_metadata_display(array &$variables) {
+ 
+  foreach ($variables['solr_fields'] as $fieldname => $fields) {
+    if ((substr($fieldname, - 3) === '_dt') || (substr($fieldname, - 4) === '_mdt')) {
+       if (!isset($fields['formatter']) || empty($fields['formatter'])) {
+         $variables['solr_fields'][$fieldname]['formatter'] = '_sdsuFormatDate';
+       }
+    }
+  }
+}
+
+/**
+ * Formats a Solr Date into Natural language removing time and zone.
+ */
+function _sdsuFormatDate($value) {
+  if (empty($value)) {
+    return $value;
+  }
+  return date('Y-m-d', strtotime($value));
+}
