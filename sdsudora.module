@@ -102,7 +102,7 @@ function sdsudora_preprocess_islandora_solr_metadata_description(array &$variabl
  
   $variables['combine'] = FALSE;
   foreach ($variables['solr_fields'] as $fields) {
-    dpm($fields);
+    dpm($fields,'test','error');
   }
   /*
   $variables['solr_fields'][$date_solr_field]['formatter'] = '_sdsuFormatDate';
