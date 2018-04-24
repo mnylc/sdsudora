@@ -116,5 +116,5 @@ function _sdsuFormatDate($value) {
   if (empty($value)) {
     return $value;
   }
-  return date('jS \of F Y', strtotime($value));
+  return date('Y-m-d', strtotime($value));
 }
