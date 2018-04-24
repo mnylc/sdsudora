@@ -98,11 +98,12 @@ function sdsudora_islandora_breadcrumbs_alter(array &$breadcrumbs, $context, Abs
  *
  * Adds formatter function to all *_dt and *_mdt fields.
  */
-function sdsudora_preprocess_islandora_solr_metadata_description(array &$variables) {
+function sdsudora_preprocess_islandora_solr_metadata_display(array &$variables) {
  
-  $variables['combine'] = FALSE;
-  foreach ($variables['solr_fields'] as $fields) {
-    kprint_r($fields);
+  foreach ($variables['solr_fields'] as $fieldname => $fields) {
+    if ((substr($fieldname, - 3) === '_dt') || (substr($fieldname, - 4) === '_mdt')) {
+       kprint_r($fields);
+    }
   }
   /*
   $variables['solr_fields'][$date_solr_field]['formatter'] = '_sdsuFormatDate';
