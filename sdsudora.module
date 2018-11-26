@@ -58,19 +58,17 @@ function sdsudora_islandora_breadcrumbs_alter(array &$breadcrumbs, $context, Abs
     if ($numvalues) {
       $i = 0;
       $root = variable_get('islandora_repository_pid', 'islandora:root');
-        
+
       // Number of values will be always even.
       $iterations = (int) round($numvalues / 2);
       for ($i = 0; $i < $iterations; $i++) {
         $unescapedpid = $values['sdsudora_settings_o_' . $i];
         $pid = str_replace(":", "%3A", $values['sdsudora_settings_o_' . $i]);
         foreach ($breadcrumbstmp as $key => $item) {
-          
+
           if ((strpos($item, "islandora/object/{$pid}") !== FALSE) ||
-            (strpos($item, 'a href="/islandora"')!== FALSE && $unescapedpid == $root))
-          {
-           
-            $replacementpath= trim($values['sdsudora_settings_d_' . $i],"/");
+            (strpos($item, 'a href="/islandora"') !== FALSE && $unescapedpid == $root)) {
+            $replacementpath = trim($values['sdsudora_settings_d_' . $i], "/");
             $path = drupal_lookup_path('source', $replacementpath);
             if ($path) {
               $uri = drupal_get_path_alias($replacementpath);
@@ -92,19 +90,18 @@ function sdsudora_islandora_breadcrumbs_alter(array &$breadcrumbs, $context, Abs
   }
 }
 
-
 /**
  * Implements hook_preprocess_islandora_solr_metadata_description().
  *
  * Adds formatter function to all *_dt and *_mdt fields.
  */
 function sdsudora_preprocess_islandora_solr_metadata_display(array &$variables) {
- 
+
   foreach ($variables['solr_fields'] as $fieldname => $fields) {
-    if ((substr($fieldname, - 3) === '_dt') || (substr($fieldname, - 4) === '_mdt')) {
-       if (!isset($fields['formatter']) || empty($fields['formatter'])) {
-         $variables['solr_fields'][$fieldname]['formatter'] = '_sdsuFormatDate';
-       }
+    if ((substr($fieldname, -3) === '_dt') || (substr($fieldname, -4) === '_mdt')) {
+      if (!isset($fields['formatter']) || empty($fields['formatter'])) {
+        $variables['solr_fields'][$fieldname]['formatter'] = '_sdsu_format_date';
+      }
     }
   }
 }
@@ -112,9 +109,23 @@ function sdsudora_preprocess_islandora_solr_metadata_display(array &$variables) 
 /**
  * Formats a Solr Date into Natural language removing time and zone.
  */
-function _sdsuFormatDate($value) {
+function _sdsu_format_date($value) {
   if (empty($value)) {
     return $value;
   }
   return date('Y-m-d', strtotime($value));
+}
+
+/**
+ * Implements hook_js_alter().
+ *
+ * Replaces Islandora Solr Search Facet JS with our own.
+ *
+ * @author dpino@metro.org
+ */
+function sdsudora_js_alter(&$javascript) {
+  $index = 'sites/all/modules/islandora_solr_search/js/islandora_solr_facets.js';
+  if (isset($javascript[$index])) {
+    $javascript[$index]['data'] = drupal_get_path('module', 'sdsudora') . '/js/islandora_solr_facets.js';
+  }
 }
