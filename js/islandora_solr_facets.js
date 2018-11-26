@@ -2,7 +2,7 @@
  * @file
  * Javascript file for islandora solr search facets
  * 
- * Modified by Diego Pino dpinoâ@metro Nov 2018
+ * Modified by Diego Pino dpino@metro Nov 2018
  */
 
 (function ($) {
