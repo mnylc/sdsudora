@@ -24,7 +24,7 @@ Having problems or solved a problem? Contact [discoverygarden](http://support.di
 
 Current maintainers:
 
-* [discoverygarden](http://www.discoverygarden.ca)
+* [Diego Pino at Metro.org](https://github.com/DiegoPino)
 
 Sponsors:
 
