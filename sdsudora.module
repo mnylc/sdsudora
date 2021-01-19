@@ -153,8 +153,8 @@ function sdsudora_islandora_newspaper_get_issues_alter(&$issues, $newspaper) {
   {
     $time1Object = $a['issued'];
     $time2Object = $b['issued'];
-    $t1 = $time1Object->getTimestampstrtotime();
-    $t2 = $time2Object->getTimestampstrtotime();
+    $t1 = $time1Object->getTimestamp();
+    $t2 = $time2Object->getTimestamp();
     $order = $t1 - $t2;
     if ($order == 0) {
       // Try with the sequence for Objects with the same date
